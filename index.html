@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intersection Observer</title>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            margin: 0;
+        }
+
+        header {
+            position: fixed;
+            height: 50px;
+            width: 100%;
+            background-color: white;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        header > a {
+            line-height:50px;
+            color: black;
+            text-decoration: none;
+            padding: 0 1rem;
+            transition: .2s;
+        }
+
+        header > a:hover {
+            background-color: #eee;
+        }
+
+        .link-ativo {
+            background-color: #ccc;
+        }
+
+        section {
+            text-align: center;
+            padding: 50px;
+            height: calc(100vh - 100px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+        }
+
+        section > div {
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 500px;
+            margin: auto;
+            transition: .5s;
+        }
+
+        #section1 {
+            background-color: green;
+        }
+
+        #section2 {
+            background-color: red;
+        }
+
+        #section3 {
+            background-color: blue;
+        }
+
+        #section4 {
+            background-color: orange;
+        }
+
+        .ativo > div {
+            background-color: #fff;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#section1">Seção Um</a>
+        <a href="#section2">Seção Dois</a>
+        <a href="#section3">Seção Três</a>
+        <a href="#section4">Seção Quatro</a>
+    </header>
+    <section id="section1">
+        <div>
+            <h1>Seção Um</h1>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt, iste. Possimus at eveniet laboriosam voluptatibus commodi porro nisi rem neque molestias excepturi! Provident quo ipsa voluptates quia vitae magni numquam.</p>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt, iste. Possimus at eveniet laboriosam voluptatibus commodi porro nisi rem neque molestias excepturi! Provident quo ipsa voluptates quia vitae magni numquam.</p>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt, iste. Possimus at eveniet laboriosam voluptatibus commodi porro nisi rem neque molestias excepturi! Provident quo ipsa voluptates quia vitae magni numquam.</p>
+        </div>
+    </section>
+    <section id="section2">
+        <div>
+            <h1>Seção 2</h1>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis eaque tempora pariatur ea non in qui nisi placeat quia molestiae esse dignissimos deleniti neque, repellendus quod consectetur? Cumque, sequi quisquam!</p>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis eaque tempora pariatur ea non in qui nisi placeat quia molestiae esse dignissimos deleniti neque, repellendus quod consectetur? Cumque, sequi quisquam!</p>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis eaque tempora pariatur ea non in qui nisi placeat quia molestiae esse dignissimos deleniti neque, repellendus quod consectetur? Cumque, sequi quisquam!</p>
+        </div>
+    </section>
+    <section id="section3">
+        <div>
+            <h1>Seção 3</h1>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis eaque tempora pariatur ea non in qui nisi placeat quia molestiae esse dignissimos deleniti neque, repellendus quod consectetur? Cumque, sequi quisquam!</p>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis eaque tempora pariatur ea non in qui nisi placeat quia molestiae esse dignissimos deleniti neque, repellendus quod consectetur? Cumque, sequi quisquam!</p>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis eaque tempora pariatur ea non in qui nisi placeat quia molestiae esse dignissimos deleniti neque, repellendus quod consectetur? Cumque, sequi quisquam!</p>
+        </div>
+    </section>
+    <section id="section4">
+        <div>
+            <h1>Seção 4</h1>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis eaque tempora pariatur ea non in qui nisi placeat quia molestiae esse dignissimos deleniti neque, repellendus quod consectetur? Cumque, sequi quisquam!</p>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis eaque tempora pariatur ea non in qui nisi placeat quia molestiae esse dignissimos deleniti neque, repellendus quod consectetur? Cumque, sequi quisquam!</p>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis eaque tempora pariatur ea non in qui nisi placeat quia molestiae esse dignissimos deleniti neque, repellendus quod consectetur? Cumque, sequi quisquam!</p>
+        </div>
+    </section>
+    <script>
+        const sections = document.querySelectorAll('section');
+        const links = document.querySelectorAll('header > a');
+
+        let options = {
+            root: null, // default;
+            threshold: .5
+            // rootMargin: '-100px',
+        };
+
+        function handler(entries){
+            entries.forEach(entry => {
+                let sectionId = entry.target.id;
+                let linkHref = '[href="#' + sectionId + '"]';
+                let link = document.querySelector(linkHref);
+                link.classList.add('link-ativo')
+
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('ativo');
+                    console.log(link);
+                } else {
+                    entry.target.classList.remove('ativo');
+                    link.classList.remove('link-ativo')
+                }
+            })
+        }
+
+        const observer = new IntersectionObserver(handler, options);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
